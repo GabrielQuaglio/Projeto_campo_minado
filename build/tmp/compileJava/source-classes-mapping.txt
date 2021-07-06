@@ -1,2 +1,4 @@
-br/com/GabrielQuaglio/cm/t.java
- br.com.GabrielQuaglio.cm.t
+br/com/GabrielQuaglio/cm/modelo/Tabuleiro.java
+ br.com.GabrielQuaglio.cm.modelo.Tabuleiro
+br/com/GabrielQuaglio/cm/modelo/Campo.java
+ br.com.GabrielQuaglio.cm.modelo.Campo

@@ -1,2 +1,4 @@
-teste/testao.java
- teste.testao
+modelo/Tabuleiro.java
+ modelo.Tabuleiro
+modelo/CampoTeste.java
+ modelo.CampoTeste
