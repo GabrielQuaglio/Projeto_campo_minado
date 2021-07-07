@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="modelo.CampoTeste" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-07-06T19:11:50" hostname="gabrielquaglio-Lenovo-IdeaPad-S145-15IWL" time="0.015">
+<testsuite name="modelo.CampoTeste" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-07-07T21:44:03" hostname="gabrielquaglio-Lenovo-IdeaPad-S145-15IWL" time="0.057">
   <properties/>
-  <testcase name="testeVizinhoDiagonal()" classname="modelo.CampoTeste" time="0.015"/>
+  <testcase name="testeAbrirComVizinho2()" classname="modelo.CampoTeste" time="0.057"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

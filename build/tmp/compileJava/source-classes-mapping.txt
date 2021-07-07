@@ -1,3 +1,5 @@
+br/com/GabrielQuaglio/cm/exceçao/ExplosaoException.java
+ br.com.GabrielQuaglio.cm.exceçao.ExplosaoException
 br/com/GabrielQuaglio/cm/modelo/Tabuleiro.java
  br.com.GabrielQuaglio.cm.modelo.Tabuleiro
 br/com/GabrielQuaglio/cm/modelo/Campo.java
