@@ -74,6 +74,7 @@ public class Campo {
     public boolean isMarcado() { //getter de boolean
         return marcado;
     }
+
     public void minar(){
         minado = true;
     }
@@ -82,7 +83,46 @@ public class Campo {
         return aberto;
     }
 
+    public int getColuna() {
+        return coluna;
+    }
+
+    public int getLinha() {
+        return linha;
+    }
+
+    boolean objetivoAlcançado(){
+        boolean desvendado = !minado && aberto;
+        boolean protegido = minado && marcado;
+        return desvendado || protegido;
+    }
+
+    long miasNaVizinhança(){
+        return  vizinhos.stream().filter(vizinhos -> vizinhos.minado).count();
+    }
+
+    void reiniciar(){
+        aberto = false;
+        minado = false;
+        marcado = false;
+        //reinicia os campos
+    }
+
+    @Override
+    public String toString() {
+        if (marcado){
+            return "x";
+        }else if(aberto && minado){
+            return "*";
+        }else if(aberto && miasNaVizinhança()> 0 ){
+            return Long.toString(miasNaVizinhança());
+        }else if(aberto){
+            return "";
+        }else {
+            return "?";
+        }
 
 
 
+    }
 }
