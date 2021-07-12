@@ -46,8 +46,20 @@ public class Tabuleiro {
 
 
     private void sortearMinas() {
-
-
+    long minasArmadas = 0;
+    do {
+        minasArmadas =  campos.stream().filter(c -> c.isMinado()).count();
+      //count retorna long por isso o cast
+        int aleatorio = (int) (Math.random() * campos.size());
+        campos.get(aleatorio).isMinado();
+    }while (minasArmadas< minas);
     }
 
-}
+    public boolean objetivoAlcançado(){
+        return campos.stream().allMatch(c -> c.objetivoAlcançado());
+    }
+     public void reniciar(){
+        campos.stream().forEach((c -> reniciar()));
+        sortearMinas();
+     }
+
