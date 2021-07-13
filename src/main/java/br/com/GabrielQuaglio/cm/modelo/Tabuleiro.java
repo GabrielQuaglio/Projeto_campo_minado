@@ -1,5 +1,7 @@
 package br.com.GabrielQuaglio.cm.modelo;
 
+import br.com.GabrielQuaglio.cm.exceçao.ExplosaoException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -27,12 +29,18 @@ public class Tabuleiro {
 
 
     public void abrir(int linha,int coluna){
-        campos.stream()
-                .filter(c -> c.getLinha() == linha && c.getColuna() == coluna)
-                .findFirst()
-        .ifPresent(c -> c.abrir());//o findFirst gera um optional, entao podemos ou nao termos
-        //resutado por conta disso usamos o ifPresent
+        try {
 
+
+            campos.stream()
+                    .filter(c -> c.getLinha() == linha && c.getColuna() == coluna)
+                    .findFirst()
+                    .ifPresent(c -> c.abrir());//o findFirst gera um optional, entao podemos ou nao termos
+            //resutado por conta disso usamos o ifPresent
+        }catch (ExplosaoException e){
+            campos.forEach(c -> c.setAberto(true));
+            throw e;
+        }
     }
 
     public void marcar(int linha,int coluna){
@@ -71,10 +79,10 @@ public class Tabuleiro {
         long minasArmadas = 0;
         Predicate<Campo> minado =c -> c.isMinado();
         do {
-            minasArmadas = campos.stream().filter(minado).count();
-            //count retorna long por isso o cast
             int aleatorio = (int) (Math.random() * campos.size());
             campos.get(aleatorio).minar();
+            minasArmadas = campos.stream().filter(minado).count();
+            //count retorna long por isso o cast
         } while (minasArmadas < minas);
     }
 
@@ -92,6 +100,8 @@ public class Tabuleiro {
         StringBuilder sb = new StringBuilder();
         int i =0;
         for( int l = 0; l< linhas; l++){
+            sb.append(l);
+            sb.append(" ");
             for(int c = 0; c < colunas; c++){
                 sb.append(" ");
                 sb.append(campos.get(i));
