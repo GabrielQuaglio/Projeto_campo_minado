@@ -91,7 +91,7 @@ public class Tabuleiro {
     }
 
     public void reniciar() {
-        campos.stream().forEach((c -> reniciar()));
+        campos.stream().forEach(c -> c.reiniciar());
         sortearMinas();
     }
 
