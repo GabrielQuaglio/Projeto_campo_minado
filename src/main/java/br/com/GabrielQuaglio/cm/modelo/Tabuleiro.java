@@ -99,6 +99,16 @@ public class Tabuleiro {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         int i =0;
+        sb.append(" ");
+        sb.append(" ");
+        for (int c = 0; c<colunas; c++){
+            sb.append(" ");
+            sb.append(c);
+            sb.append(" ");
+
+
+        }
+        sb.append("\n");
         for( int l = 0; l< linhas; l++){
             sb.append(l);
             sb.append(" ");

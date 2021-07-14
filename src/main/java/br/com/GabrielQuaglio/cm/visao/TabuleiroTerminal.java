@@ -50,10 +50,10 @@ public class TabuleiroTerminal {
 
 
                 String digitado =
-                        capturarValorDigitado("Digite (X e Y): ");
+                        capturarValorDigitado("Digite (linha(x) e coluna(y)): ");
 
 
-              Iterator<Integer> xy = Arrays
+              Iterator<Integer> linhaEColuna = Arrays
                         .stream(digitado.split(","))
                         .map(lc -> Integer.parseInt(lc.trim())).iterator();
                 // o split separa a string a cada virgula
@@ -61,13 +61,13 @@ public class TabuleiroTerminal {
                 digitado =  capturarValorDigitado("1 - Abrir ou 2 - (Des)Marcar:  ");
 
                 if (digitado.equalsIgnoreCase("1")) {
-                    tabuleiro.abrir(xy.next(), xy.next());
+                    tabuleiro.abrir(linhaEColuna.next(), linhaEColuna.next());
                 }else if(digitado.equalsIgnoreCase("2")){
-                    tabuleiro.marcar(xy.next(),xy.next());
+                    tabuleiro.marcar(linhaEColuna.next(), linhaEColuna.next());
                 }
 
             }
-
+            System.out.println(tabuleiro);
             System.out.println("Você ganhou");
         }catch (ExplosaoException e){
             System.out.println(tabuleiro);
