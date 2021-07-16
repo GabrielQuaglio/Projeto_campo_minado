@@ -38,7 +38,7 @@ Confira algumas imagens do programa em execução no terminal clicando [aqui](ht
 
 - Ter o Gradle na versão 7.0.2 ou superior 
 
-​        Para saber com instalar o Gradle no Linux (Ubuntu) clique [aqui](https://linuxize.com/post/install-java-on-ubuntu-18-04/).
+​        Para saber com instalar o Gradle no Linux (Ubuntu) clique [aqui](https://howtoinstall.co/pt/gradle).
 
 ​        Para saber com instalar o Gradle no Windows clique [aqui](https://giordanolins.com/instalando-e-configurando-o-gradle-no-windows/).
 
