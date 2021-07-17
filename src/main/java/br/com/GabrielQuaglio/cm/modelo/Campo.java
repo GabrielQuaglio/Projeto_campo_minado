@@ -24,7 +24,12 @@ public class Campo {
 
     }
 
-    public boolean adicionarVizinho(Campo vizinho) {
+    public boolean adicionarVizinho(Campo vizinho) {//metodo que adiciona vizinhos a um campo
+        // a logica se resume em adicionar 2 tipos de vizinhos os das laterais e superiores e os diagonais
+        // diagonais  o da diagonal sempre tera a subtraçao absoluta das posiçoes =2
+        //. Exemplo: 1,1 - 2,2-> 1-2 = (-1) / 1-2 =(-1) / -1 + -1 = -2 que na forma absoluta fica =  a 2
+        //laterais tem a mesma logica porem com o resultado absoluto da subtraçao =1
+        //se as subtrçoes nao tiverem esses resultados, então não sao vizinhos
         boolean linhaDiferente = linha != vizinho.linha;
         boolean colunaDiferente = coluna != vizinho.coluna;
         boolean diagonal = linhaDiferente && colunaDiferente;
@@ -46,19 +51,23 @@ public class Campo {
 
 
     public void alternarMarcaçao() {
+        //para marcar ou desmarcar um campo, que nao estja aberto
         if (!aberto) {
             marcado = !marcado;//assim podemos alternar se o campo esta marcado ou não
 
         }
     }
 
-     public boolean abrir() {
+     public boolean abrir() { //para abrir um campo que nao esteja marcado e fechado
         if (!aberto && !marcado) {
             aberto = true;
-            if (minado) {
+            if (minado) {//se minado, joga a exceçao personalizada para quebrar o fluxo
                 throw new ExplosaoException();//usaremos uma exception personalizada, para quebrar o fluxo de código
             }
-            if(vizinhançaSegura()){
+            if(vizinhançaSegura()){//aqui usamos a recursividade, para conseguirmos expandir o abrimento
+                //dos campos para os vizinhos dos vizinhos
+                //aqui ele utiliza o "método vizinhançaSegura()", que verifica se a vizinhança esta segura
+                //para poder abri-los e assim entrar nessa chamada recursiva até que a vizinhança nao seja mais segura
                 vizinhos.forEach(vizinho -> vizinho.abrir());//aqui fizemos uma chamada recursiva
             }
             return true;
@@ -68,7 +77,7 @@ public class Campo {
     }
 
 
-
+   //verifica se a vizinhança do campo passado é segura
     boolean vizinhançaSegura() {
         return vizinhos.stream().noneMatch(vizinho -> vizinho.minado);
     }
@@ -101,17 +110,17 @@ public class Campo {
         this.aberto = aberto;
     }
 
-    boolean objetivoAlcançado(){
+    boolean objetivoAlcançado(){//verifica se o objetivo foi alcançado
         boolean desvendado = !minado && aberto;
         boolean protegido = minado && marcado;
         return desvendado || protegido;
     }
-
-    long miasNaVizinhança(){
+    //conta o número de minas na vizinhança de um campo
+    long minasNaVizinhança(){
         return  vizinhos.stream().filter(vizinhos -> vizinhos.minado).count();
     }
 
-    void reiniciar(){
+    void reiniciar(){//renicia o jogo reniciando os estados dos campos
         aberto = false;
         minado = false;
         marcado = false;
@@ -119,13 +128,14 @@ public class Campo {
     }
 
     @Override
-    public String toString() {
+    public String toString() {//aberto = nada, marcado = x, minado = * e aberto com minas perto = numero
+        //de minas proximas através do método minasNavizinhança
         if (marcado){
             return "x";
         }else if(aberto && minado){
             return "*";
-        }else if(aberto && miasNaVizinhança()> 0 ){
-            return Long.toString(miasNaVizinhança());
+        }else if(aberto && minasNaVizinhança()> 0 ){
+            return Long.toString(minasNaVizinhança());
         }else if(aberto){
             return "";
         }else {

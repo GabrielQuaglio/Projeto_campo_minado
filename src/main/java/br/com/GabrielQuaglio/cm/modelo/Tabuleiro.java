@@ -30,8 +30,6 @@ public class Tabuleiro {
 
     public void abrir(int linha,int coluna){
         try {
-
-
             campos.stream()
                     .filter(c -> c.getLinha() == linha && c.getColuna() == coluna)
                     .findFirst()
@@ -56,7 +54,8 @@ public class Tabuleiro {
 
 
 
-    private void gerarCampos() {
+    private void gerarCampos() {//cria o tabuleiro com os campos de acordo com o numero de linhas e colunas
+        //passadas na instanciaçao do tabuleiro
         for (int linha = 0; linha < linhas; linha++) {
             for (int coluna = 0; coluna < colunas; coluna++) {
                 campos.add(new Campo(linha, coluna));
@@ -75,7 +74,8 @@ public class Tabuleiro {
     }
 
 
-    private void sortearMinas() {
+    private void sortearMinas() {//sorteia o numero de minas passados na instanciaçao do tabulerio pelo
+        //tabuleiro
         long minasArmadas = 0;
         Predicate<Campo> minado =c -> c.isMinado();
         do {
