@@ -1,12 +1,11 @@
 package br.com.GabrielQuaglio.cm.modelo;
 
-import br.com.GabrielQuaglio.cm.exceçao.ExplosaoException;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public class Tabuleiro {
+public class Tabuleiro implements CampoObservador {
 
 
     private int linhas;
@@ -15,6 +14,7 @@ public class Tabuleiro {
 
     private final List<Campo> campos = new ArrayList<>();//aqui foi preferido
     //organizar o tabuleiro como uma lista e nao como uma matriz
+    private  final List<Consumer<Boolean>> observadores = new ArrayList<>();
 
 
     public Tabuleiro(int linhas, int colunas, int minas) {
@@ -27,18 +27,30 @@ public class Tabuleiro {
         sortearMinas();
     }
 
+    public void paraCada(Consumer<Campo> funçao){
+        campos.forEach(funçao);
+    }
+
+    public void registrarObservadores(Consumer<Boolean> observador){
+        observadores.add(observador);
+    }
+
+    private void notificarObservadores(boolean resultado){
+        observadores.stream().forEach(obs -> obs.accept(resultado));
+    }
+
 
     public void abrir(int linha,int coluna){
-        try {
             campos.stream()
                     .filter(c -> c.getLinha() == linha && c.getColuna() == coluna)
                     .findFirst()
                     .ifPresent(c -> c.abrir());//o findFirst gera um optional, entao podemos ou nao termos
             //resutado por conta disso usamos o ifPresent
-        }catch (ExplosaoException e){
-            campos.forEach(c -> c.setAberto(true));
-            throw e;
-        }
+    }
+
+    public void mostrarMinas(){
+        campos.stream().filter(c -> c.isMinado()).
+        forEach((c -> c.setAberto(true)));
     }
 
     public void marcar(int linha,int coluna){
@@ -58,7 +70,10 @@ public class Tabuleiro {
         //passadas na instanciaçao do tabuleiro
         for (int linha = 0; linha < linhas; linha++) {
             for (int coluna = 0; coluna < colunas; coluna++) {
-                campos.add(new Campo(linha, coluna));
+                Campo campo = new Campo(linha,coluna);
+                campo.registrarObservador(this);
+                campos.add(campo);
+
             }
 
         }
@@ -96,31 +111,23 @@ public class Tabuleiro {
     }
 
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        int i =0;
-        sb.append(" ");
-        sb.append(" ");
-        for (int c = 0; c<colunas; c++){
-            sb.append(" ");
-            sb.append(c);
-            sb.append(" ");
+    public void eventoOcorreu(Campo campo, CampoEvento evento) {
+        if(evento == CampoEvento.EXPLODIR){
+            mostrarMinas();
+            notificarObservadores(false);
 
+        }else if(objetivoAlcançado()){
+            System.out.println("Ganhou ...");
+            notificarObservadores(true);
 
         }
-        sb.append("\n");
-        for( int l = 0; l< linhas; l++){
-            sb.append(l);
-            sb.append(" ");
-            for(int c = 0; c < colunas; c++){
-                sb.append(" ");
-                sb.append(campos.get(i));
-                sb.append(" ");
-                i++;
-            }
-            sb.append("\n");
-        }
+    }
 
-        return sb.toString();
+    public int getLinhas() {
+        return linhas;
+    }
+
+    public int getColunas() {
+        return colunas;
     }
 }

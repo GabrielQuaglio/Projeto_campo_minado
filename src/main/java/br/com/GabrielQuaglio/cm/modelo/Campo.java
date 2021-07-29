@@ -1,6 +1,6 @@
 package br.com.GabrielQuaglio.cm.modelo;
 
-import br.com.GabrielQuaglio.cm.exceçao.ExplosaoException;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,7 @@ public class Campo {
 
 
     private List<Campo> vizinhos = new ArrayList<>();
+    private List<CampoObservador> observadores = new ArrayList<>();
 
 
     public Campo(int linha, int coluna) {
@@ -22,6 +23,14 @@ public class Campo {
         this.linha = linha;
 
 
+    }
+
+    public void registrarObservador(CampoObservador observador){
+        observadores.add(observador);
+    }
+
+    private void notificarObservadores(CampoEvento evento){
+        observadores.stream().forEach(obs -> obs.eventoOcorreu(this, evento) );
     }
 
     public boolean adicionarVizinho(Campo vizinho) {//metodo que adiciona vizinhos a um campo
@@ -55,15 +64,24 @@ public class Campo {
         if (!aberto) {
             marcado = !marcado;//assim podemos alternar se o campo esta marcado ou não
 
+            if(marcado){
+                notificarObservadores(CampoEvento.MARCAR);
+            }else {
+                notificarObservadores(CampoEvento.DESMARCAR);
+            }
         }
     }
 
      public boolean abrir() { //para abrir um campo que nao esteja marcado e fechado
         if (!aberto && !marcado) {
-            aberto = true;
+
             if (minado) {//se minado, joga a exceçao personalizada para quebrar o fluxo
-                throw new ExplosaoException();//usaremos uma exception personalizada, para quebrar o fluxo de código
+
+                notificarObservadores(CampoEvento.EXPLODIR);
+                return true;
             }
+            setAberto(true);
+            notificarObservadores(CampoEvento.ABRIR);
             if(vizinhançaSegura()){//aqui usamos a recursividade, para conseguirmos expandir o abrimento
                 //dos campos para os vizinhos dos vizinhos
                 //aqui ele utiliza o "método vizinhançaSegura()", que verifica se a vizinhança esta segura
@@ -108,6 +126,10 @@ public class Campo {
 
     public void setAberto(boolean aberto) {
         this.aberto = aberto;
+        if(aberto){
+            notificarObservadores(CampoEvento.ABRIR);
+        }
+
     }
 
     boolean objetivoAlcançado(){//verifica se o objetivo foi alcançado
@@ -127,22 +149,8 @@ public class Campo {
         //reinicia os campos
     }
 
-    @Override
-    public String toString() {//aberto = nada, marcado = x, minado = * e aberto com minas perto = numero
-        //de minas proximas através do método minasNavizinhança
-        if (marcado){
-            return "x";
-        }else if(aberto && minado){
-            return "*";
-        }else if(aberto && minasNaVizinhança()> 0 ){
-            return Long.toString(minasNaVizinhança());
-        }else if(aberto){
-            return "";
-        }else {
-            return "?";
-        }
 
 
 
     }
-}
+
