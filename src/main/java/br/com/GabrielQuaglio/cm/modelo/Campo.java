@@ -96,7 +96,7 @@ public class Campo {
 
 
    //verifica se a vizinhança do campo passado é segura
-    boolean vizinhançaSegura() {
+    public boolean vizinhançaSegura() {
         return vizinhos.stream().noneMatch(vizinho -> vizinho.minado);
     }
 
@@ -138,8 +138,8 @@ public class Campo {
         return desvendado || protegido;
     }
     //conta o número de minas na vizinhança de um campo
-    long minasNaVizinhança(){
-        return  vizinhos.stream().filter(vizinhos -> vizinhos.minado).count();
+    public int minasNaVizinhança(){
+        return (int) vizinhos.stream().filter(vizinhos -> vizinhos.minado).count();
     }
 
     void reiniciar(){//renicia o jogo reniciando os estados dos campos

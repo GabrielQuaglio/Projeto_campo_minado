@@ -5,7 +5,7 @@ import br.com.GabrielQuaglio.cm.modelo.Tabuleiro;
 import javax.swing.*;
 import java.awt.*;
 
-public class PainelTabuleiro extends JPanel {
+public class PainelTabuleiro extends JPanel  {
     //Panel agrupa outros componentes dentro dele, como varios botãoes
 
 
