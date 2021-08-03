@@ -14,7 +14,7 @@ public class Tabuleiro implements CampoObservador {
 
     private final List<Campo> campos = new ArrayList<>();//aqui foi preferido
     //organizar o tabuleiro como uma lista e nao como uma matriz
-    private  final List<Consumer<Boolean>> observadores = new ArrayList<>();
+    private  final List<Consumer<ResultadoEvento>> observadores = new ArrayList<>();
 
 
     public Tabuleiro(int linhas, int colunas, int minas) {
@@ -31,12 +31,12 @@ public class Tabuleiro implements CampoObservador {
         campos.forEach(funçao);
     }
 
-    public void registrarObservadores(Consumer<Boolean> observador){
+    public void registrarObservadores(Consumer<ResultadoEvento> observador){
         observadores.add(observador);
     }
 
     private void notificarObservadores(boolean resultado){
-        observadores.stream().forEach(obs -> obs.accept(resultado));
+        observadores.stream().forEach(obs -> obs.accept(new ResultadoEvento(resultado)));
     }
 
 
@@ -50,6 +50,7 @@ public class Tabuleiro implements CampoObservador {
 
     public void mostrarMinas(){
         campos.stream().filter(c -> c.isMinado()).
+        filter(c -> !c.isMarcado()).
         forEach((c -> c.setAberto(true)));
     }
 

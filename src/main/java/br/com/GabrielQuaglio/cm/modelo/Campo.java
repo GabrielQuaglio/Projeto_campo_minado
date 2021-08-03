@@ -146,6 +146,7 @@ public class Campo {
         aberto = false;
         minado = false;
         marcado = false;
+        notificarObservadores(CampoEvento.RENICIAR);
         //reinicia os campos
     }
 
