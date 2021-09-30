@@ -65,7 +65,7 @@ Confira algumas imagens do programa em execução no terminal clicando [aqui](ht
 
   !!! Importante que seja na mesma ordem abaixo
 
-  `$javac AplicacaoMain.java exceçao/* modelo/* visao/* `.
+  `$javac modelo/* visao/* `.
 
 - Volte ao diretorio ~(home) do seu S.O
 
@@ -77,7 +77,7 @@ Confira algumas imagens do programa em execução no terminal clicando [aqui](ht
 
 - Execute o projeto 
 
-  `$ java -cp . br.com.GabrielQuaglio.cm.AplicacaoMain`.
+  `$ java -cp . br.com.GabrielQuaglio.cm.visao.TelaPrincipal`.
 
   - É importante ressaltar que alguns comandos podem variar de um sitema opercional para o outro, este passo a passo foi feito baseado no sistema operacional linux Ubuntu 20.04.
 
